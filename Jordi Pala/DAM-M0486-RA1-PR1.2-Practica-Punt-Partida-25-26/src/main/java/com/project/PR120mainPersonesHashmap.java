@@ -58,7 +58,7 @@ public class PR120mainPersonesHashmap {
             while (dis.available() > 0) { // con datos disponibles leemos clave/valor
                 String nom = dis.readUTF();
                 int edat = dis.readInt();
-                System.out.println("Nom: " + nom + ", Edat: " + edat);
+                System.out.println(": " + edat + " anys");
             }
 
         } catch (Exception e) {

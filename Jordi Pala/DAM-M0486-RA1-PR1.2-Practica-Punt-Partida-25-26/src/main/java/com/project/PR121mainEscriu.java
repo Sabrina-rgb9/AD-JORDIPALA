@@ -1,8 +1,11 @@
 package com.project;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.HashMap;
+
 import com.project.excepcions.IOFitxerExcepcio;
 import com.project.objectes.PR121hashmap;
 
@@ -34,5 +37,11 @@ public class PR121mainEscriu {
 
     public static void serialitzarHashMap(PR121hashmap hashMap) throws IOFitxerExcepcio {
         // *************** CODI PRÀCTICA **********************/
+        try (FileOutputStream fos = new FileOutputStream(filePath);
+            ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+                oos.writeObject(hashMap);
+            } catch (IOException e) {
+                throw new IOFitxerExcepcio("Error escrivint al fitxer: " + e.getMessage());
+            }
     }
 }
