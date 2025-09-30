@@ -37,32 +37,38 @@ public class PR120mainPersonesHashmap {
 
     // Mètode per escriure les persones al fitxer
     public static void escriurePersones(HashMap<String, Integer> persones) throws IOFitxerExcepcio {
-       // *************** CODI PRÀCTICA **********************/
+    try {
+        // Crear carpeta si no existeix
+        File file = new File(filePath);
+        file.getParentFile().mkdirs(); // només crea la carpeta
 
-       try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(filePath))) {
-            for (Map.Entry<String, Integer> entry : persones.entrySet()) { // utilizamos esta iteración para recorrer el HASHMAP
-                dos.writeUTF(entry.getKey()); //clave
-                dos.writeInt(entry.getValue()); // valor 
+        // Escriure dades
+        try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(file))) {
+            for (Map.Entry<String, Integer> entry : persones.entrySet()) {
+                dos.writeUTF(entry.getKey());  // nom
+                dos.writeInt(entry.getValue()); // edat
             }
-       } catch (Exception e) {
-            throw new IOFitxerExcepcio("Error escrivint al fitxer: " + e.getMessage());
-       }
-
-    }
-
-    // Mètode per llegir les persones des del fitxer
-    public static void llegirPersones() throws IOFitxerExcepcio {
-        // *************** CODI PRÀCTICA **********************/
-        try (DataInputStream dis = new DataInputStream(new FileInputStream(filePath))) { // leemos los datos del fichero con DataInputStream 
-
-            while (dis.available() > 0) { // con datos disponibles leemos clave/valor
-                String nom = dis.readUTF();
-                int edat = dis.readInt();
-                System.out.println(": " + edat + " anys");
-            }
-
-        } catch (Exception e) {
-            throw new IOFitxerExcepcio("Error llegint del fitxer: " + e.getMessage());
         }
+
+    } catch (Exception e) {
+        throw new IOFitxerExcepcio("Error escrivint al fitxer: " + e.getMessage());
     }
+}
+
+public static void llegirPersones() throws IOFitxerExcepcio {
+    File file = new File(filePath);
+    if (!file.exists()) {
+        throw new IOFitxerExcepcio("El fitxer no existeix: " + filePath);
+    }
+
+    try (DataInputStream dis = new DataInputStream(new FileInputStream(file))) {
+        while (dis.available() > 0) {
+            String nom = dis.readUTF();
+            int edat = dis.readInt();
+            System.out.println(nom + ": " + edat + " anys");
+        }
+    } catch (Exception e) {
+        throw new IOFitxerExcepcio("Error llegint del fitxer: " + e.getMessage());
+    }
+}
 }
