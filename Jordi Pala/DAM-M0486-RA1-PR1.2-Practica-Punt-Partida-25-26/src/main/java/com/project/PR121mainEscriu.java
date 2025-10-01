@@ -38,10 +38,10 @@ public class PR121mainEscriu {
     public static void serialitzarHashMap(PR121hashmap hashMap) throws IOFitxerExcepcio {
         // *************** CODI PRÀCTICA **********************/
         try (FileOutputStream fos = new FileOutputStream(filePath);
-            ObjectOutputStream oos = new ObjectOutputStream(fos)) {
-                oos.writeObject(hashMap);
-            } catch (IOException e) {
-                throw new IOFitxerExcepcio("Error escrivint al fitxer: " + e.getMessage());
-            }
+             ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+            oos.writeObject(hashMap);
+        } catch (IOException e) {
+            throw new IOFitxerExcepcio("Error escrivint al fitxer: " + e.getMessage());
+        }
     }
 }

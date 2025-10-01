@@ -133,37 +133,122 @@ public class PR124main {
     // Mètode per trobar la posició d'un estudiant al fitxer segons el número de registre
     private long trobarPosicioRegistre(RandomAccessFile raf, int registreBuscat) throws IOException {
         // *************** CODI PRÀCTICA **********************/
-        return 0; // Substitueix pel peu
+        long numRegistres = raf.length() / (ID_SIZE + NAME_MAX_BYTES + GRADE_SIZE);
+        for (long i = 0; i < numRegistres; i++) {
+            raf.seek(i * (ID_SIZE + NAME_MAX_BYTES + GRADE_SIZE));
+            int id = raf.readInt();
+            if (id == registreBuscat) return i * (ID_SIZE + NAME_MAX_BYTES + GRADE_SIZE);
+        }
+        return -1; // Si no es troba, retornar -1
     }
 
     // Operacions amb fitxers
     // Mètode que manipula el fitxer i llista tots els estudiants (independent per al test)
     public void llistarEstudiantsFitxer() throws IOException {
         // *************** CODI PRÀCTICA **********************/
+
+        File file = new File(filePath);
+        if (!file.exists()) return;
+
+        try (RandomAccessFile raf = new RandomAccessFile(file, "r")) {
+            long numRegistres = raf.length() / (ID_SIZE + NAME_MAX_BYTES + GRADE_SIZE);
+            for (int i = 0; i < numRegistres; i++) {
+                raf.seek(i * (ID_SIZE + NAME_MAX_BYTES + GRADE_SIZE));
+                int id = raf.readInt();
+                String nom = llegirNom(raf);
+                float nota = raf.readFloat();
+                System.out.println("Registre: " + id + ", Nom: " + nom + ", Nota: " + nota);
+            }
+        }
+
     }
 
     // Mètode que manipula el fitxer i afegeix l'estudiant
     public void afegirEstudiantFitxer(int registre, String nom, float nota) throws IOException {
         // *************** CODI PRÀCTICA **********************/
+
+        File file = new File(filePath);
+        file.getParentFile().mkdirs(); // Crear directori si no existeix
+
+        try (RandomAccessFile raf = new RandomAccessFile(file, "rw")) {
+            long posicio = trobarPosicioRegistre(raf, registre);
+            if (posicio != -1) {
+                raf.seek(posicio);
+            } else {
+                raf.seek(raf.length()); // Anar al final per afegir nou registre
+            }
+            raf.writeInt(registre);
+            escriureNom(raf, nom);
+            raf.writeFloat(nota);
+        }
+
     }
 
     // Mètode que manipula el fitxer i consulta la nota d'un estudiant
     public void consultarNotaFitxer(int registre) throws IOException {
         // *************** CODI PRÀCTICA **********************/
+        File file = new File(filePath);
+        if (!file.exists()) {
+            System.out.println("No s'ha trobat l'estudiant amb registre: " + registre);
+            return;
+        }
+        try (RandomAccessFile raf = new RandomAccessFile(file, "r")) {
+            long posicio = trobarPosicioRegistre(raf, registre);
+            if (posicio == -1) {
+                System.out.println("NO s'ha trobat l'estudiant amb registre: " + registre);
+            } else {
+                raf.seek(posicio);
+                raf.readInt(); // Llegir ID
+                String nom = llegirNom(raf);
+                float nota = raf.readFloat();
+                System.out.println("Registre: " + registre + ", Nom: " + nom + ", Nota: " + nota);
+                }
+                
+            }
     }
 
     // Mètode que manipula el fitxer i actualitza la nota d'un estudiant
     public void actualitzarNotaFitxer(int registre, float novaNota) throws IOException {
         // *************** CODI PRÀCTICA **********************/
+
+        File file = new File(filePath);
+        if (!file.exists()) return;
+
+        try (RandomAccessFile raf = new RandomAccessFile(file, "rw")) {
+            long posicio = trobarPosicioRegistre(raf, registre);
+            if (posicio == -1) return; // No trobat
+            raf.seek(posicio + ID_SIZE + NAME_MAX_BYTES); // Anar a la posició de la nota
+            raf.writeFloat(novaNota);
+        }
+
     }
 
     // Funcions auxiliars per a la lectura i escriptura del nom amb UTF-8
     private String llegirNom(RandomAccessFile raf) throws IOException {
         // *************** CODI PRÀCTICA **********************/
-        return "<nom>"; // Substitueix pel teu
+        byte[] buf = new byte[NAME_MAX_BYTES];
+        raf.readFully(buf);
+        String nom = new String(buf, StandardCharsets.UTF_8);
+        return nom.replace("\0", "").trim(); // Eliminar caràcters nuls i espais
+
+
     }
 
     private void escriureNom(RandomAccessFile raf, String nom) throws IOException {
         // *************** CODI PRÀCTICA **********************/
+
+        byte[] bytes = nom.getBytes(StandardCharsets.UTF_8);
+        if (bytes.length > NAME_MAX_BYTES) {
+
+            byte[] trunc = new byte[NAME_MAX_BYTES];
+            System.arraycopy(bytes, 0, trunc, 0, NAME_MAX_BYTES);
+            raf.write(trunc);
+        } else {
+            raf.write(bytes);
+
+            for (int i = bytes.length; i < NAME_MAX_BYTES; i++) {
+                raf.writeByte(0); // Omplir amb caràcters nuls
+            }
     }
+}
 }

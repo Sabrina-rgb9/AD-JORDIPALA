@@ -59,6 +59,8 @@ public class PR123mainTreballadors {
     // Mètode per mostrar els treballadors llegint el fitxer CSV
     public void mostrarTreballadors() throws IOFitxerExcepcio {
         // *************** CODI PRÀCTICA **********************/
+        List<String> treballadors = llegirFitxerCSV();
+        treballadors.forEach(System.out::println);
     }
 
     // Mètode per modificar un treballador (interactiu)
@@ -82,6 +84,43 @@ public class PR123mainTreballadors {
     // Mètode que modifica treballador (per a tests i usuaris) llegint i escrivint sobre disc
     public void modificarTreballador(String id, String columna, String nouValor) throws IOFitxerExcepcio {
         // *************** CODI PRÀCTICA **********************/
+        List<String> treballadorsCSV = llegirFitxerCSV();
+
+        // Trobar la línia del treballador amb l'ID proporcionat
+        int numLinia = -1;
+        for (int i = 1; i < treballadorsCSV.size(); i++) { // començant per 1 per saltar la capçalera
+            String[] dades = treballadorsCSV.get(i).split(",");
+            if (dades[0].trim().equals(id.trim())) {
+                numLinia = i;
+                break;
+            }
+        }
+
+        if (numLinia == -1) {
+            throw new IOFitxerExcepcio("Treballador no trobat amb ID: " + id);
+        }
+
+        // Trobar l'índex de la columna a modificar
+        String[] capcalera = treballadorsCSV.get(0).split(",");
+        int indexColumna = -1;
+        for (int i = 0; i < capcalera.length; i++) {
+            if (capcalera[i].trim().equalsIgnoreCase(columna.trim())) {
+                indexColumna = i;
+                break;
+            }
+        }
+
+        if (indexColumna == -1) {
+            throw new IOFitxerExcepcio("Columna desconeguda: " + columna);
+        }
+
+        // Modificar el valor a la línia corresponent
+        String[] dades = treballadorsCSV.get(numLinia).split(",");
+        dades[indexColumna] = nouValor.trim();
+        treballadorsCSV.set(numLinia, String.join(",", dades));
+
+        // Escriure el fitxer actualitzat
+        escriureFitxerCSV(treballadorsCSV);
     }
 
     // Encapsulació de llegir el fitxer CSV

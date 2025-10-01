@@ -35,40 +35,39 @@ public class PR120mainPersonesHashmap {
         filePath = newFilePath;
     }
 
-    // Mètode per escriure les persones al fitxer
+    
     public static void escriurePersones(HashMap<String, Integer> persones) throws IOFitxerExcepcio {
-    try {
-        // Crear carpeta si no existeix
-        File file = new File(filePath);
-        file.getParentFile().mkdirs(); // només crea la carpeta
+        try {
+            File file = new File(filePath);
+            file.getParentFile().mkdirs(); // crea només la carpeta si no existeix
 
-        // Escriure dades
-        try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(file))) {
-            for (Map.Entry<String, Integer> entry : persones.entrySet()) {
-                dos.writeUTF(entry.getKey());  // nom
-                dos.writeInt(entry.getValue()); // edat
+            try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(file))) {
+                for (Map.Entry<String, Integer> entry : persones.entrySet()) {
+                    dos.writeUTF(entry.getKey());   // nom
+                    dos.writeInt(entry.getValue()); // edat
+                }
             }
+        } catch (IOException e) {
+            throw new IOFitxerExcepcio("Error en escriure les persones al fitxer", e);
+        }
+    }
+
+    public static void llegirPersones() throws IOFitxerExcepcio {
+        File file = new File(filePath);
+
+        if (!file.exists()) {
+            throw new IOFitxerExcepcio("Error en llegir les persones del fitxer: el fitxer no existeix",
+                                       new FileNotFoundException(filePath));
         }
 
-    } catch (Exception e) {
-        throw new IOFitxerExcepcio("Error escrivint al fitxer: " + e.getMessage());
-    }
-}
-
-public static void llegirPersones() throws IOFitxerExcepcio {
-    File file = new File(filePath);
-    if (!file.exists()) {
-        throw new IOFitxerExcepcio("El fitxer no existeix: " + filePath);
-    }
-
-    try (DataInputStream dis = new DataInputStream(new FileInputStream(file))) {
-        while (dis.available() > 0) {
-            String nom = dis.readUTF();
-            int edat = dis.readInt();
-            System.out.println(nom + ": " + edat + " anys");
+        try (DataInputStream dis = new DataInputStream(new FileInputStream(file))) {
+            while (dis.available() > 0) {
+                String nom = dis.readUTF();
+                int edat = dis.readInt();
+                System.out.println(nom + ": " + edat + " anys");
+            }
+        } catch (IOException e) {
+            throw new IOFitxerExcepcio("Error en llegir les persones del fitxer", e);
         }
-    } catch (Exception e) {
-        throw new IOFitxerExcepcio("Error llegint del fitxer: " + e.getMessage());
     }
-}
 }
