@@ -1,7 +1,9 @@
 package com.project.pr13;
 
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Text;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -93,7 +95,72 @@ public class PR131Main {
      */
     private static Document construirDocument() {
         // *************** CODI PRÀCTICA **********************/
-       return null; // Substitueix pel teu
+       
+        try {
+            
+            DocumentBuilderFactory dbF = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbF.newDocumentBuilder();
+            Document doc = db.newDocument();
+
+            // creem l'arrel biblioteca
+            Element biblioteca = doc.createElement("bilbioteca");
+            doc.appendChild(biblioteca);
+
+            // creem el llibre 001
+            Element llibre = doc.createElement("llibre");
+            llibre.setAttribute("id", "001");
+            biblioteca.appendChild(llibre);
+
+            // afegim el titol 
+            Element titol = doc.createElement("titol");
+            Text titolText = doc.createTextNode("El viatge dels venturons");
+            titol.appendChild(titolText);
+            llibre.appendChild(titol);
+
+            // afegim l'autor
+            Element autor = doc.createElement("autor");
+            Text autorText = doc.createTextNode("Joan Pla");
+            autor.appendChild(autorText);
+            llibre.appendChild(autor);
+
+            // afegim l'any que s'ha publicat
+            Element any = doc.createElement("anyPublicacio");
+            Text anyText = doc.createTextNode("1998");
+            any.appendChild(anyText);
+            llibre.appendChild(any);
+
+            // afegim l'editorial
+            Element editorial = doc.createElement("editorial");
+            Text editorialText = doc.createTextNode("Edicions Mar");
+            editorial.appendChild(editorialText);
+            llibre.appendChild(editorial);
+
+            // afegim el genere 
+            Element genere = doc.createElement("genere");
+            Text genereText = doc.createTextNode("Aventura");
+            genere.appendChild(genereText);
+            llibre.appendChild(genere);
+
+            // afegim les pagines 
+            Element pagines = doc.createElement("pagines");
+            Text paginesText = doc.createTextNode("320");
+            pagines.appendChild(paginesText);
+            llibre.appendChild(pagines);
+
+            // afegim disponibilitat 
+            Element disponible = doc.createElement("disponible");
+            Text disponibleText = doc.createTextNode("true");
+            disponible.appendChild(disponibleText);
+            llibre.appendChild(disponible);
+
+            return doc;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+
     }
 
     /**
@@ -104,5 +171,19 @@ public class PR131Main {
      */
     private static void guardarDocument(Document doc, File fitxerSortida) {
         // *************** CODI PRÀCTICA **********************/
+
+        try {
+            TransformerFactory transFactory = TransformerFactory.newInstance();
+            Transformer transformer = transFactory.newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(fitxerSortida);
+
+            transformer.transform(source, result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }
