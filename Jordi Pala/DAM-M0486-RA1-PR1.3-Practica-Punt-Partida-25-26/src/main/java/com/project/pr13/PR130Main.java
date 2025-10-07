@@ -53,8 +53,8 @@ public class PR130Main {
         Document doc = parseXML(inputFile);
         if (doc != null) {
             NodeList persones = doc.getElementsByTagName("persona");
-            // imprimirCapçaleres();
-            // imprimirDadesPersones(persones);
+            imprimirCapçaleres();
+            imprimirDadesPersones(persones);
         }
     }
 
@@ -66,6 +66,35 @@ public class PR130Main {
      */
     public static Document parseXML(File inputFile) {
         // *************** CODI PRÀCTICA **********************/
-        return null; // Substitueix pel teu        
+
+        try {
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            return dBuilder.parse(inputFile);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    // imprimir la capçalera de la taula
+    private void imprimirCapçaleres() {
+        System.out.printf("%-10s %-15s %-5s %-10s%n", "Nom", "Cognom", "Edat", "Email", "Telèfon");
+        System.out.println("-------- -------------- ----- ---------");
+    }
+
+    // imprimir les dades de les persones
+    private void imprimirDadesPersones(NodeList persones) {
+        for (int i = 0; i < persones.getLength(); i++) {
+            Element persona = (Element) persones.item(i);
+            String nom = persona.getElementsByTagName("nom").item(0).getTextContent().trim();
+            String cognom = persona.getElementsByTagName("cognom").item(0).getTextContent().trim();
+            String edat = persona.getElementsByTagName("edat").item(0).getTextContent().trim();
+            String ciutat = persona.getElementsByTagName("ciutat").item(0).getTextContent().trim();
+
+            System.out.printf("%-10s %-15s %-5s %-10s%n", nom, cognom, edat, ciutat);
+
+        }
     }
 }
