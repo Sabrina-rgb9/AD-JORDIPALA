@@ -52,7 +52,21 @@ public class PR14GestioLlibreriaJakartaMain {
      */
     public List<Llibre> carregarLlibres() {
         // *************** CODI PRÀCTICA **********************/
-        return null; // Substitueix pel teu
+        List<Llibres> llibres = new ArrayList<>();
+        try (InputStream is = new FileInputStream(dataFile);
+             JsonReader reader = Json.createReader(is)) {
+                jsonArray = reader.readArray(); // llegim el fitxer i el convertim en un array JSON
+                for (JsonValue jsonValue : jsonArray) { // recorrem l'array JSON
+                    JsonObject jsonObject = jsonValue.asJsonObject(); // convertim cada element en un objecte JSON
+                    int id = jsonObject.getInt("id"); // obtenim l'id
+                    String titol = jsonObject.getString("titol"); // obtenim el títol
+                    String autor = jsonObject.getString("autor"); // obtenim l'autor
+                    int any = jsonObject.getInt("any"); // obtenim l'any
+                    Llibre llibre = new Llibre(id, titol, autor, any); // creem un nou llibre
+                    llibres.add(llibre); // afegim el llibre a la llista
+                }
+             }
+
     }
 
     /**
