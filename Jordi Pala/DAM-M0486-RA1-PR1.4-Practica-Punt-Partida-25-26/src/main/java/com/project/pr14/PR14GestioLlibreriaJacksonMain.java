@@ -51,7 +51,14 @@ public class PR14GestioLlibreriaJacksonMain {
      */
     public List<Llibre> carregarLlibres() {
         // *************** CODI PRÀCTICA **********************/
-        return null; // Substitueix pel teu
+        ObjectMapper objMapper = new ObjectMapper(); // l'utilitzem per llegir i escriure JSON 
+        try {
+            return objMapper.readValue(dataFile, new TypeReference<List<Llibre>>() { // llegim el fitxer i el convertim en una llista de llibres
+            });
+            } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -63,6 +70,12 @@ public class PR14GestioLlibreriaJacksonMain {
      */
     public void modificarAnyPublicacio(List<Llibre> llibres, int id, int nouAny) {
         // *************** CODI PRÀCTICA **********************/
+        for (Llibre llibre : llibres) { // utilitzem un bucle per recórrer la llista de llibres
+            if (llibre.getId() == id) { // si l'id del llibre és igual a l'id que volem modificar fem el canvi
+                llibre.setAny(nouAny);
+                break; // sortim del bucle un cop hem trobat i modificat el llibre
+            }
+        }
     }
 
     /**
@@ -73,6 +86,7 @@ public class PR14GestioLlibreriaJacksonMain {
      */
     public void afegirNouLlibre(List<Llibre> llibres, Llibre nouLlibre) {
         // *************** CODI PRÀCTICA **********************/
+        llibres.add(nouLlibre ); // afegim el llibre
     }
 
     /**
@@ -83,6 +97,7 @@ public class PR14GestioLlibreriaJacksonMain {
      */
     public void esborrarLlibre(List<Llibre> llibres, int id) {
         // *************** CODI PRÀCTICA **********************/
+        llibres.removeIf(llibre -> llibre.getId() == id);
     }
 
     /**
@@ -91,6 +106,13 @@ public class PR14GestioLlibreriaJacksonMain {
      * @param llibres Llista de llibres a guardar.
      */
     public void guardarLlibres(List<Llibre> llibres) {
-        // *************** CODI PRÀCTICA **********************/        
+        // *************** CODI PRÀCTICA **********************/    
+        ObjectMapper objMapper = new ObjectMapper(); 
+        try {
+            File outputFile = new File(dataFile.getParentFile(), "llibres_output_jackson.json"); // creem el fitxer de sortida
+            objMapper.writerWithDefaultPrettyPrinter().writeValue(outputFile, llibres); // escrivim la llista de llibres al fitxer
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

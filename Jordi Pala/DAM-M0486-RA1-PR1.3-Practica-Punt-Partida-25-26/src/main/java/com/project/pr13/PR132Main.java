@@ -139,7 +139,27 @@ public class PR132Main {
      */
     public List<List<String>> llistarCursos() {
         // *************** CODI PRÀCTICA **********************/
-        return null; // Substitueix pel teu
+        Document doc = carregarDocumentXML(xmlFilePath);
+        XPath xpath = XPathFactory.newInstance().newXPath();
+        List<List<String>> resultat = new ArrayList<>();
+
+
+        try {
+            // fem una consulta per obtenir tots els cursos
+            NodeList cursos = (NodeList) xpath.compile("/cursos/curs").evaluate(doc, XPathConstants.NODESET);
+            for (int i = 0; i < cursos.getLength(); i++) {
+                Element curs = (Element) cursos.item(i);
+                String id = curs.getAttribute("id");
+                String tutor = (String) xpath.compile("tutor").evaluate(curs, XPathConstants.STRING);
+                Number numAlumnes = (Number) xpath.compile("count(alumnes/alumne)").evaluate(curs, XPathConstants.NUMBER);
+
+                resultat.add(List.of(id, tutor, String.valueOf(numAlumnes.intValue())));
+            }
+            
+        } catch (XPathExpressionException e) {
+            e.printStackTrace();
+        }
+        return resultat;
     }
 
     /**
@@ -160,8 +180,33 @@ public class PR132Main {
      */
     public List<List<String>> mostrarModuls(String idCurs) {
         // *************** CODI PRÀCTICA **********************/
-        return null; // Substitueix pel teu
+
+        Document doc = carregarDocumentXML(xmlFilePath);
+        XPath xpath = XPathFactory.newInstance().newXPath();
+        List<List<String>> resultat = new ArrayList<>();
+
+        try {
+            String expr = "/cursos/curs[@id='" + idCurs + "']/moduls/modul";
+            NodeList moduls = (NodeList) xpath.compile(expr).evaluate(doc, XPathConstants.NODESET);
+            
+            if (moduls.getLength() == 0) {
+                System.out.println("No hi ha cap curs amb aquest ID:" + idCurs);
+                return resultat;
+            }
+
+            for (int i = 0; i < moduls.getLength(); i++) {
+                Element modul = (Element) moduls.item(i);
+                String idModul = modul.getAttribute("id");
+                String titol = (String) xpath.compile("titol/text()").evaluate(modul, XPathConstants.STRING);
+                resultat.add(List.of(idModul, titol));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();  
+        }
+        return resultat;
     }
+     
 
     /**
      * Imprimeix per consola una taula amb la informació dels mòduls.
@@ -181,7 +226,29 @@ public class PR132Main {
      */
     public List<String> llistarAlumnes(String idCurs) {
         // *************** CODI PRÀCTICA **********************/
-        return null; // Substitueix pel teu
+
+        Document doc = carregarDocumentXML(xmlFilePath);
+        XPath xpath = XPathFactory.newInstance().newXPath();
+        List<String> alumnes = new ArrayList<>();
+
+        try {
+            String expr = "/cursos/curs[@id='" + idCurs + "']/alumnes/alumne";
+            NodeList nodes = (NodeList) xpath.compile(expr).evaluate(doc, XPathConstants.NODESET);
+
+            if (nodes.getLength() == 0) {
+                System.out.println("No hi ha cap curs amb aquest ID:" + idCurs);
+                return alumnes;
+            }
+
+            for (int i = 0; i < nodes.getLength(); i++) {
+                alumnes.add(nodes.item(i).getTextContent().trim());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return alumnes;
     }
 
     /**
@@ -202,6 +269,30 @@ public class PR132Main {
      */
     public void afegirAlumne(String idCurs, String nomAlumne) {
         // *************** CODI PRÀCTICA **********************/
+        Document doc = carregarDocumentXML(xmlFilePath);
+        XPath xpath = XPathFactory.newInstance().newXPath();
+
+        try {
+            String expr = "/cursos/curs[@id='" + idCurs + "']/alumnes";
+            NodeList nodes = (NodeList) xpath.compile(expr).evaluate(doc, XPathConstants.NODESET);
+
+            if (nodes.getLength() == 0) {
+                System.out.println("No hi ha cap curs amb aquest ID:" + idCurs);
+                return;
+            }
+
+            Element alumnes = (Element) nodes.item(0);
+            Element nouAlumne = doc.createElement("alumne");
+            nouAlumne.setTextContent(nomAlumne);
+            alumnes.appendChild(nouAlumne);
+
+            guardarDocumentXML(doc);
+            System.out.println("Alumne afegit correctament.");
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -212,6 +303,40 @@ public class PR132Main {
      */
     public void eliminarAlumne(String idCurs, String nomAlumne) {
         // *************** CODI PRÀCTICA **********************/
+
+        Document doc = carregarDocumentXML(xmlFilePath);
+        XPath xpath = XPathFactory.newInstance().newXPath();
+
+        try {
+            String expr = "/cursos/curs[@id='" + idCurs + "']/alumnes/alumne";
+            NodeList nodes = (NodeList) xpath.compile(expr).evaluate(doc, XPathConstants.NODESET);
+
+            if (nodes.getLength() == 0) {
+                System.out.println("No hi ha cap curs amb aquest ID:" + idCurs);
+                return;
+            }
+
+            boolean trobat = false;
+            for (int i = 0; i < nodes.getLength(); i++) {
+                Node alumne = nodes.item(i);
+                if (alumne.getTextContent().trim().equals(nomAlumne)) {
+                    alumne.getParentNode().removeChild(alumne);
+                    trobat = true;
+                    break;
+                }
+            }
+
+            if (trobat) {
+                guardarDocumentXML(doc);
+                System.out.println("Alumne eliminat correctament.");
+            } else {
+                System.out.println("No s'ha trobat cap alumne amb aquest nom en el curs especificat: " + nomAlumne);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**
