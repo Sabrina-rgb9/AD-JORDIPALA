@@ -242,6 +242,7 @@ public class PR132Main {
 
             for (int i = 0; i < nodes.getLength(); i++) {
                 alumnes.add(nodes.item(i).getTextContent().trim());
+
             }
 
         } catch (Exception e) {
