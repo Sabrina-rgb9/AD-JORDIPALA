@@ -12,12 +12,15 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.query.NativeQuery;
+
+// La classe Manager gestiona les operacions CRUD amb Hibernate
 
 public class Manager {
 
+    //objecte principal d'Hibernate. S'utilitza per obrir sessions
     private static SessionFactory factory;
 
+    // Carrega la configuració i crea la SessionFactory (Es crida al iniciar l'aplicació)
     public static void createSessionFactory() {
         try {
             factory = new Configuration().configure().buildSessionFactory();
@@ -32,8 +35,14 @@ public class Manager {
     }
   
     // ============================================================
-    // MÈTODES GENÈRICS PER TRANSACCIONS
+    // GESTIÓ DE TRANSACCIONS - PATRÓ DRY (Don't Repeat Yourself)
     // ============================================================
+
+    // consumer session: acció que no retorna res. perfecte per operacions CRUD sense resultat
+    // try with resources per assegurar el tancament de la sessió
+    // transacció: conjunt d'operacions que s'executen com una unitat atòmica
+    //  - si alguna falla, es fa rollback per mantenir la integritat de les dades
+    //  - si tot va bé, es fa commit per confirmar els canvis
 
     private static void executeInTransaction(Consumer<Session> action) {
         Transaction tx = null;
@@ -46,6 +55,10 @@ public class Manager {
             throw new RuntimeException("Error en transacció Hibernate", e);
         }
     }
+
+    // function session, t: interficie funcional que accepta un parametre 
+    // i retorna un valor de tipus T.
+
 
     private static <T> T executeInTransactionWithResult(Function<Session, T> action) {
         Transaction tx = null;
@@ -67,6 +80,8 @@ public class Manager {
     /**
      * CREATE: Afegeix una nova ciutat a la base de dades
      */
+
+    // Retorna l'objecte Ciutat creat amb l'ID assignat
     public static Ciutat addCiutat(String nom, String pais, int poblacio) {
         return executeInTransactionWithResult(session -> {
             Ciutat ciutat = new Ciutat(nom, pais, poblacio);
@@ -102,7 +117,6 @@ public class Manager {
             if (newCiutadans != null) {
                 // Netejar ciutadans existents (mantenint la coherència bidireccional)
                 if (ciutat.getCiutadans() != null && !ciutat.getCiutadans().isEmpty()) {
-                    // Creem una còpia per evitar ConcurrentModificationException
                     List<Ciutada> ciutadansToRemove = List.copyOf(ciutat.getCiutadans());
                     ciutadansToRemove.forEach(ciutat::removeCiutada);
                 }
@@ -153,6 +167,10 @@ public class Manager {
     /**
      * READ: Recupera una ciutat amb tots els seus ciutadans carregats
      */
+
+    // Hibernate utilitza lazy loading per defecte en col·leccions
+    // Per forçar la càrrega, utilitzem Hibernate.initialize()
+    // lazy loading: les dades relacionades no es carreguen fins que es necessiten
     public static Ciutat getCiutatWithCiutadans(long ciutatId) {
         return executeInTransactionWithResult(session -> {
             Ciutat ciutat = session.get(Ciutat.class, ciutatId);
@@ -179,6 +197,9 @@ public class Manager {
     /**
      * READ: Llista totes les entitats d'un tipus
      */
+
+    // HQL (Hibernate Query Language) similar a SQL però orientat a objectes
+    // clazz.getName(): obté el nom complet de la classe per a la consulta
     public static <T> List<T> listCollection(Class<T> clazz, String whereClause) {
         return executeInTransactionWithResult(session -> {
             String hql = "FROM " + clazz.getName();
@@ -195,6 +216,7 @@ public class Manager {
     public static <T> String collectionToString(Class<T> clazz, Collection<T> collection) {
         if (collection == null || collection.isEmpty()) return "[]";
         StringBuilder sb = new StringBuilder();
+        // Converteix cada objecte de la col·lecció a String
         sb.append("[").append(clazz.getSimpleName()).append("]\n");
         for (T obj : collection) {
             sb.append(obj.toString()).append("\n");
