@@ -66,10 +66,30 @@ public class Prestec implements Serializable {
     public boolean isActiu() { return actiu; }
     public void setActiu(boolean actiu) { this.actiu = actiu; }
 
+    // modificado toString para evitar problemas con LAZY loading
     @Override
     public String toString() {
-        String nomPersona = (persona != null) ? persona.getNom() : "Desc.";
-        String codiExemplar = (exemplar != null) ? exemplar.getCodiBarres() : "Desc.";
-        return "Prestec{id=" + prestecId + ", exemplar=" + codiExemplar + ", persona=" + nomPersona + ", data=" + dataPrestec + ", actiu=" + actiu + "}";
+        String nomPersona;
+        String codiExemplar;
+        
+        // Manejar proxy LAZY para persona
+        try {
+            nomPersona = (persona != null) ? persona.getNom() : "Desc.";
+        } catch (org.hibernate.LazyInitializationException e) {
+            nomPersona = "[Persona no carregada]";
+        }
+        
+        // Manejar proxy LAZY para exemplar
+        try {
+            codiExemplar = (exemplar != null) ? exemplar.getCodiBarres() : "Desc.";
+        } catch (org.hibernate.LazyInitializationException e) {
+            codiExemplar = "[Exemplar no carregat]";
+        }
+        
+        return "Prestec{id=" + prestecId + 
+            ", exemplar=" + codiExemplar + 
+            ", persona=" + nomPersona + 
+            ", data=" + dataPrestec + 
+            ", actiu=" + actiu + "}";
     }
 }

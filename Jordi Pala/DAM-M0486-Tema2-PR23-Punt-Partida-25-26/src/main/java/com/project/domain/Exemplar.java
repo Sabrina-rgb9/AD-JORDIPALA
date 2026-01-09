@@ -65,7 +65,7 @@ public class Exemplar implements Serializable {
         this.historialPrestecs = historialPrestecs; 
     }
 
-    // metodos helper para mantener consistencia bidireccional
+    // metodo para añadir un prestec al historial
     public void addPrestec(Prestec prestec) {
         this.historialPrestecs.add(prestec);
         prestec.setExemplar(this); 
@@ -73,7 +73,16 @@ public class Exemplar implements Serializable {
 
     @Override
     public String toString() {
-        String titol = (llibre != null) ? llibre.getTitol() : "Desconegut";
-        return "Exemplar{id=" + exemplarId + ", codi='" + codiBarres + "', llibre='" + titol + "', disponible=" + disponible + "}";
+        // Solución segura
+        String titol = "Desconegut";
+        if (llibre != null) {
+            // Verificar si es un proxy Hibernate
+            try {
+                titol = llibre.getTitol();
+            } catch (org.hibernate.LazyInitializationException e) {
+                titol = "[Títol no disponible]";
+            }
+        }
+        return "Exemplar{id=" + exemplarId + ", codi='" + codiBarres + "', disponible=" + disponible + "}";
     }
 }

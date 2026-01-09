@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
+import java.util.Collections;
 
 /**
  * Classe Manager - Capa d'accés a dades (DAO)
@@ -92,8 +93,10 @@ public class Manager {
         Autor autor = null;
         try {
             tx = session.beginTransaction();
-            // TODO: Crear l'objecte Autor amb el constructor i persistir-lo amb session.persist()
-            
+
+            autor = new Autor(nom);
+            session.persist(autor);
+
             tx.commit();
         } catch (Exception e) {
             if (tx != null) tx.rollback();
@@ -119,8 +122,10 @@ public class Manager {
         Llibre llibre = null;
         try {
             tx = session.beginTransaction();
-            // TODO: Crear l'objecte Llibre amb el constructor i persistir-lo
-            
+
+            llibre = new Llibre(isbn, titol, editorial, anyPublicacio);
+            session.persist(llibre);
+
             tx.commit();
         } catch (Exception e) {
             if (tx != null) tx.rollback();
@@ -150,15 +155,38 @@ public class Manager {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            // TODO IMPORTANT: Relació Many-to-Many
             // 1. Recuperar l'autor per ID amb session.find(Autor.class, autorId)
+
+            Autor autor = session.find(Autor.class, autorId);
+            if (autor == null) {
+                System.out.println("No s'ha trobat l'autor amb ID: " + autorId);
+                return;
+            }
+
             // 2. Si l'autor existeix, actualitzar el nom amb setNom()
+
+            if (nom != null) {
+                autor.setNom(nom);
+                System.out.println("Actualitzat nom de l'autor a: " + nom);
+            }
+
             // 3. PISTA CRÍTICA: Per persistir la relació M:N, has de modificar el costat PROPIETARI.
             //    El propietari és Llibre (té @JoinTable).
             //    Per tant, per cada llibre del Set:
             //      a) Recupera'l de la sessió amb session.find()
             //      b) Afegeix l'autor a la seva col·lecció: llibreDB.getAutors().add(autor)
             //    Hibernate detectarà els canvis i actualitzarà la taula intermèdia.
+            
+            if (llibres != null) {
+                for (Llibre llibre : llibres) {
+                    Llibre llibreDB = session.find(Llibre.class, llibre.getLlibreId());
+                    if (llibreDB != null) {
+                        llibreDB.getAutors().add(autor);
+                        System.out.println("Vinculat llibre '" + llibreDB.getTitol() + "' a l'autor '" + autor.getNom() + "'");
+                    }
+                }
+            }
+
             
             tx.commit();
         } catch (Exception e) {
@@ -185,8 +213,10 @@ public class Manager {
         Biblioteca biblio = null;
         try {
             tx = session.beginTransaction();
-            // TODO: Crear l'objecte Biblioteca amb el constructor i persistir-lo
-            
+
+            biblio = new Biblioteca(nom, ciutat, adreca, telefon, email);
+            session.persist(biblio);
+
             tx.commit();
         } catch (Exception e) {
             if (tx != null) tx.rollback();
@@ -212,11 +242,22 @@ public class Manager {
         Exemplar exemplar = null;
         try {
             tx = session.beginTransaction();
-            // TODO: Crear exemplar amb el constructor (ja posa disponible=true per defecte)
+            // Crear exemplar amb el constructor (ja posa disponible=true per defecte)
             // NOTA: Els objectes llibre i biblioteca passats com a paràmetre poden estar "detached"
             // (no associats a aquesta sessió). Pots usar session.merge() per reassociar-los
             // o simplement passar-los al constructor i persistir l'exemplar.
-            
+
+            exemplar = new Exemplar(codiBarres, llibre, biblioteca);
+            session.persist(exemplar);
+
+            // actualizar colecciions bidireccionales si es necesario
+            if (llibre != null) {
+                llibre.getExemplars().add(exemplar);
+            }
+            if (biblioteca != null) {
+                biblioteca.getExemplars().add(exemplar);
+            }
+
             tx.commit();
         } catch (Exception e) {
             if (tx != null) tx.rollback();
@@ -242,8 +283,10 @@ public class Manager {
         Persona persona = null;
         try {
             tx = session.beginTransaction();
-            // TODO: Crear l'objecte Persona amb el constructor i persistir-lo
-            
+            // Crear l'objecte Persona amb el constructor i persistir-lo
+            persona = new Persona(dni, nom, telefon, email);
+            session.persist(persona);
+
             tx.commit();
         } catch (Exception e) {
             if (tx != null) tx.rollback();
@@ -274,28 +317,55 @@ public class Manager {
         Prestec prestec = null;
         try {
             tx = session.beginTransaction();
-            // TODO: Lògica de Préstec
-            // 1. Recuperar l'exemplar FRESC de la BD: session.find(Exemplar.class, exemplar.getExemplarId())
-            //    Això és important per tenir l'estat actual (potser algú altre l'ha prestat!)
-            // 2. Comprovar si exemplarDB.isDisponible() és true
-            // 3. SI ESTÀ DISPONIBLE:
-            //    a) Crear nou Prestec amb el constructor
-            //    b) Marcar exemplarDB.setDisponible(false)
-            //    c) Persistir el préstec: session.persist(prestec)
-            //    d) Actualitzar l'exemplar: session.merge(exemplarDB)
-            // 4. SI NO ESTÀ DISPONIBLE:
-            //    Mostrar missatge informatiu per consola (System.out.println)
+            
+            // 1. Recuperar exemplar FRESC de la BD
+            Exemplar exemplarDB = session.find(Exemplar.class, exemplar.getExemplarId());
+            if (exemplarDB == null) {
+                System.out.println("Exemplar no trobat: " + exemplar.getExemplarId());
+                return null;
+            }
+            
+            // 2. Recuperar persona FRESCA de la BD
+            Persona personaDB = session.find(Persona.class, persona.getPersonaId());
+            if (personaDB == null) {
+                System.out.println("Persona no trobada: " + persona.getPersonaId());
+                return null;
+            }
+            
+            // 3. COMPROVAR DISPONIBILITAT
+            if (!exemplarDB.isDisponible()) {
+                System.out.println("Exemplar NO disponible: " + exemplarDB.getCodiBarres());
+                System.out.println("   → El llibre '" + exemplarDB.getLlibre().getTitol() + "' està prestat");
+                return null;
+            }
+            
+            // 4. Crear préstec amb objectes MANAGED
+            prestec = new Prestec(exemplarDB, personaDB, dataPrestec, dataRetornPrevista);
+            session.persist(prestec);
+            
+            // 5. Actualitzar estat de l'exemplar
+            exemplarDB.setDisponible(false);
+            
+            // 6. Actualitzar col·leccions bidireccionals
+            exemplarDB.getHistorialPrestecs().add(prestec);
+            personaDB.getPrestecs().add(prestec);
+            
+            // 7. Guardar canvis
+            session.merge(exemplarDB);
+            session.merge(personaDB);
             
             tx.commit();
+            System.out.println("Préstec creat correctament per " + personaDB.getNom());
+            
         } catch (Exception e) {
             if (tx != null) tx.rollback();
+            System.err.println("Error creant préstec: " + e.getMessage());
             e.printStackTrace();
         } finally {
             session.close();
         }
         return prestec;
     }
-
     /**
      * Registra el retorn d'un préstec actiu.
      * 
@@ -312,17 +382,38 @@ public class Manager {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            // TODO: Lògica de Retorn
+            // Lògica de Retorn
             // 1. Recuperar el préstec: session.find(Prestec.class, prestecId)
+
+            Prestec prestec = session.find(Prestec.class, prestecId);
+
             // 2. Comprovar que existeix (no és null) i està actiu (isActiu() == true)
+
+            if (prestec == null) {
+                System.out.println("No s'ha trobat el préstec amb ID: " + prestecId);
+                return;
+            }
+
+
+
             // 3. SI ES POT RETORNAR:
+            if (prestec.isActiu()) {
             //    a) prestec.setDataRetornReal(dataReal)
+                prestec.setDataRetornReal(dataReal);
             //    b) prestec.setActiu(false)
+                prestec.setActiu(false);
             //    c) Recuperar l'exemplar: prestec.getExemplar()
+                Exemplar exemplar = prestec.getExemplar();
             //    d) exemplar.setDisponible(true)
-            //    e) Guardar canvis (Hibernate detecta els canvis automàticament en objectes managed)
+                exemplar.setDisponible(true);
             // 4. SI NO ES POT RETORNAR:
             //    Mostrar missatge informatiu
+                session.merge(prestec);
+                session.merge(exemplar);
+
+            } else {
+                System.out.println("El préstec amb ID " + prestecId + " ja ha estat retornat.");
+            }
             
             tx.commit();
         } catch (Exception e) {
@@ -349,10 +440,19 @@ public class Manager {
      */
     public static List<Llibre> findLlibresAmbAutors() {
         try (Session session = factory.openSession()) {
-            // TODO: Escriure la consulta HQL
-            // String hql = "SELECT DISTINCT l FROM Llibre l JOIN FETCH l.autors";
-            // return session.createQuery(hql, Llibre.class).list();
-            return null;
+            // JOIN FETCH per evitar LazyInitializationException
+            // DISTINCT per evitar duplicats (un llibre amb 2 autors apareixeria 2 cops)
+            String hql = "SELECT DISTINCT l FROM Llibre l " +
+                        "LEFT JOIN FETCH l.autors " +
+                        "LEFT JOIN FETCH l.exemplars " +
+                        "ORDER BY l.titol";
+            
+            List<Llibre> resultats = session.createQuery(hql, Llibre.class).list();
+            System.out.println("🔍 Trobats " + resultats.size() + " llibres amb autors");
+            return resultats;
+        } catch (Exception e) {
+            System.err.println("Error en consulta findLlibresAmbAutors: " + e.getMessage());
+            return Collections.emptyList();
         }
     }
 
@@ -368,10 +468,21 @@ public class Manager {
      */
     public static List<Object[]> findLlibresEnPrestec() {
         try (Session session = factory.openSession()) {
-            // TODO: Escriure la consulta HQL que retorni llibres en préstec actiu
-            // Has de navegar: Prestec -> Exemplar -> Llibre per obtenir el títol
-            // I també: Prestec -> Persona per obtenir el nom
-            return null;
+            // Consulta que retorna: titol del llibre, nom de la persona, data del prestec
+            String hql = "SELECT e.llibre.titol, p.nom, pr.dataPrestec " +
+                        "FROM Prestec pr " +
+                        "JOIN pr.exemplar e " +
+                        "JOIN e.llibre l " +
+                        "JOIN pr.persona p " +
+                        "WHERE pr.actiu = true " +
+                        "ORDER BY pr.dataPrestec DESC";
+            
+            List<Object[]> resultats = session.createQuery(hql, Object[].class).list();
+            System.out.println("🔍 Trobats " + resultats.size() + " llibres actualment en préstec");
+            return resultats;
+        } catch (Exception e) {
+            System.err.println("Error en consulta findLlibresEnPrestec: " + e.getMessage());
+            return Collections.emptyList();
         }
     }
 
@@ -386,8 +497,19 @@ public class Manager {
      */
     public static List<Object[]> findLlibresAmbBiblioteques() {
         try (Session session = factory.openSession()) {
-            // TODO: Escriure la consulta HQL navegant des d'Exemplar
-            return null;
+            // Consulta que retorna: titol del llibre, nom de la biblioteca, codi de barres, disponible
+            String hql = "SELECT e.llibre.titol, e.biblioteca.nom, e.codiBarres, e.disponible " +
+                        "FROM Exemplar e " +
+                        "JOIN e.llibre l " +
+                        "JOIN e.biblioteca b " +
+                        "ORDER BY l.titol, b.nom";
+            
+            List<Object[]> resultats = session.createQuery(hql, Object[].class).list();
+            System.out.println("🔍 Trobats " + resultats.size() + " relacions llibre-biblioteca");
+            return resultats;
+        } catch (Exception e) {
+            System.err.println("Error en consulta findLlibresAmbBiblioteques: " + e.getMessage());
+            return Collections.emptyList();
         }
     }
 
