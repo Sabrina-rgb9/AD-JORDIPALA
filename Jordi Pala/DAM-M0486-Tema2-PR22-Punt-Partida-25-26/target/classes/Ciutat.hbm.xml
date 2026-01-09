@@ -6,6 +6,7 @@
             <generator class="native"/>
         </id>
 
+        // propietats simples de la classe 
         <property name = "nom" column = "nom" type = "string"/>
         <property name = "pais" column = "pais" type = "string"/>
         <property name = "poblacio" column = "poblacio" type = "int"/>
@@ -13,7 +14,7 @@
         <!-- RELACIÓ ONETOMANY: Un Ciutat té molts Ciutadans -->
         <!-- inverse="true": Ciutada és el propietari de la relació (té la FK) -->
         <!-- cascade="all": Operacions en cascada per mantenir consistència -->
-        <set name="ciutadans" cascade="all" lazy="false" inverse="true">
+        <set name="ciutadans" cascade="all" lazy="false" inverse="true"> // cascade s'utilitza per mantenir la consistència entre les entitats relacionades
             <key column="ciutatId"/>
             <one-to-many class="com.project.Ciutada"/>
         </set>
