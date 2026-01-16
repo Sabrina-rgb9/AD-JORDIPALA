@@ -5,8 +5,9 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+// Entitat que representa una persona que pot realitzar préstecs
 @Entity
-@Table(name = "persones")
+@Table(name = "persones") // nombre de la tabla
 public class Persona implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -28,7 +29,7 @@ public class Persona implements Serializable {
     @Column(length = 100)
     private String email;
 
-    // relacion 1-m amb Prestec
+    // relacion 1-m amb Prestec: una persona puede tener muchos prestamos
     @OneToMany(
         mappedBy = "persona",           // Campo en Prestec que tiene la FK
         cascade = CascadeType.ALL,
@@ -60,6 +61,8 @@ public class Persona implements Serializable {
     public void setPrestecs(Set<Prestec> prestecs) { this.prestecs = prestecs; }
 
     // metodo helper para mantener consistencia bidireccional
+
+    // añadir un prestamo al historial de la persona
     public void addPrestec(Prestec prestec) {
         this.prestecs.add(prestec);
         prestec.setPersona(this); 

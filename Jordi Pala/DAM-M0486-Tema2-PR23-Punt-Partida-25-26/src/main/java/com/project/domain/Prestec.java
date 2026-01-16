@@ -15,14 +15,14 @@ public class Prestec implements Serializable {
     @Column(name = "prestec_id")
     private Long prestecId;
 
-    // relacion m-1 amb Exemplar (lado propietario)
+    // relacion m-1 amb Exemplar (lado propietario): un préstec es d'un sol exemplar
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "exemplar_id", nullable = false)
+    @JoinColumn(name = "exemplar_id", nullable = false) // FK a Exemplar
     private Exemplar exemplar;
 
-    // relacion m-1 amb Persona (lado propietario)
+    // relacion m-1 amb Persona (lado propietario): un préstec es d'una sola persona
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "persona_id", nullable = false)
+    @JoinColumn(name = "persona_id", nullable = false) // FK a Persona
     private Persona persona;
 
     @Column(name = "data_prestec", nullable = false)
@@ -47,6 +47,7 @@ public class Prestec implements Serializable {
         this.actiu = true; // Por defecto activo
     }
 
+    // Getters y setters
     public Long getPrestecId() { return prestecId; }
     public void setPrestecId(Long prestecId) { this.prestecId = prestecId; }
     public Exemplar getExemplar() { return exemplar; }

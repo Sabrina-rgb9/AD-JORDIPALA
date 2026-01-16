@@ -95,9 +95,10 @@ public class Manager {
             tx = session.beginTransaction();
 
             autor = new Autor(nom);
-            session.persist(autor);
+            session.persist(autor); // persist per guardar nou autor
 
             tx.commit();
+
         } catch (Exception e) {
             if (tx != null) tx.rollback();
             e.printStackTrace();

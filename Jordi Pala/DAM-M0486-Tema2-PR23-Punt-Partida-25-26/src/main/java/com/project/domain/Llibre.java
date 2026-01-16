@@ -5,8 +5,9 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+// Entitat que representa un llibre en el sistema
 @Entity
-@Table(name = "llibres")
+@Table(name = "llibres") // nombre de la tabla
 public class Llibre implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -28,15 +29,15 @@ public class Llibre implements Serializable {
     @Column(name = "any_publicacio")
     private Integer anyPublicacio;
 
-    
+    // relacion muchos a muchos con autor: un autor puede tener muchos libros y un libro puede tener muchos auto
     @ManyToMany(
-        cascade = {CascadeType.PERSIST, CascadeType.MERGE}, 
+        cascade = {CascadeType.PERSIST, CascadeType.MERGE},
         fetch = FetchType.LAZY
     )
     @JoinTable(
         name = "llibres_autors",                     // Tabla intermedia
         joinColumns = @JoinColumn(name = "llibre_id"),       // FK a esta entidad
-        inverseJoinColumns = @JoinColumn(name = "autor_id")  // FK a la otra entidad
+        inverseJoinColumns = @JoinColumn(name = "autor_id")  // FK a la otra entidad (se necesita como tabla intermedia)
     )
     private Set<Autor> autors = new HashSet<>();
 
@@ -74,21 +75,26 @@ public class Llibre implements Serializable {
     public void setExemplars(Set<Exemplar> exemplars) { this.exemplars = exemplars; }
 
     // metodos helper para mantener consistencia bidireccional
+
+    // addAutor sirve para añadir un autor al llibre y actualizar el lado inverso (el lado inverso es el que no tiene la @JoinTable)
     public void addAutor(Autor autor) {
         this.autors.add(autor);
         autor.getLlibres().add(this);  // Actualizar lado inverso
     }
 
+    // removeAutor sirve para eliminar un autor del llibre y actualizar el lado inverso
     public void removeAutor(Autor autor) {
         this.autors.remove(autor);
         autor.getLlibres().remove(this);  // Actualizar lado inverso
     }
 
+    // addExemplar sirve para añadir un exemplar al llibre y actualizar el lado propietario (el lado propietario es el que tiene la FK)
     public void addExemplar(Exemplar exemplar) {
         this.exemplars.add(exemplar);
         exemplar.setLlibre(this);  // Actualizar lado propietario
     }
 
+    // removeExemplar sirve para eliminar un exemplar del llibre y actualizar el lado propietario
     public void removeExemplar(Exemplar exemplar) {
         this.exemplars.remove(exemplar);
         exemplar.setLlibre(null);

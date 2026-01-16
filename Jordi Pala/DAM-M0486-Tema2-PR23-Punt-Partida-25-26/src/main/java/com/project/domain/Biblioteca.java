@@ -5,8 +5,9 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
-@Table(name = "biblioteques")
+// Entitat que representa una biblioteca en el sistema
+@Entity // Taula "biblioteques" a la base de dades
+@Table(name = "biblioteques") // nombre de la tabla
 public class Biblioteca implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -31,6 +32,7 @@ public class Biblioteca implements Serializable {
     @Column(length = 100)
     private String email;
 
+    // relació amb Exemplar: una biblioteca pot tenir molts exemplars
     @OneToMany(mappedBy = "biblioteca")
     
     private Set<Exemplar> exemplars = new HashSet<>();

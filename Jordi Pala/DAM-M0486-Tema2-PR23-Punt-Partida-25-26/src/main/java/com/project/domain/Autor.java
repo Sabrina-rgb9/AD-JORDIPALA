@@ -5,8 +5,9 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+// Entitat que representa un autor en el sistema
 @Entity
-@Table(name = "autors")
+@Table(name = "autors") // nombre de la tabla
 public class Autor implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -19,7 +20,7 @@ public class Autor implements Serializable {
     @Column(nullable = false, length = 100)
     private String nom;
 
-    // relacion m-m amb Llibre
+    // relacion m-m amb Llibre: un autor puede tener muchos libros y un libro puede tener muchos autores
     @ManyToMany(
         mappedBy = "autors",  // Llibre es el propietario (tiene @JoinTable)
         fetch = FetchType.LAZY
@@ -41,6 +42,8 @@ public class Autor implements Serializable {
     public void setLlibres(Set<Llibre> llibres) { this.llibres = llibres; }
 
     // metodos helper para mantener consistencia bidireccional
+
+
     public void addLlibre(Llibre llibre) {
         this.llibres.add(llibre);
         llibre.getAutors().add(this); 

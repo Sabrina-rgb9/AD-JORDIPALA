@@ -5,8 +5,9 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
-@Table(name = "exemplars")
+// Entitat que representa un exemplar d'un llibre en una biblioteca
+@Entity 
+@Table(name = "exemplars") // nombre de la tabla
 public class Exemplar implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -17,22 +18,22 @@ public class Exemplar implements Serializable {
     private Long exemplarId;
 
     @Column(name = "codi_barres", nullable = false, unique = true, length = 50)
-    private String codiBarres;
+    private String codiBarres; // Código de barras único para cada ejemplar
 
     @Column(nullable = false)
-    private boolean disponible = true;  // Valor por defecto
+    private boolean disponible = true;  // Valor por defecto disponible 
 
-    // relacion m-m amb Llibre
+    // relacion m-0 con libro: un exemplar pertenece a un solo libro
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "llibre_id", nullable = false)
+    @JoinColumn(name = "llibre_id", nullable = false) // FK a Llibre
     private Llibre llibre;
 
-    // relacion m-m amb Biblioteca
+    // relacion m-0 con biblioteca: un exemplar pertenece a una sola biblioteca
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "biblioteca_id", nullable = false)
+    @JoinColumn(name = "biblioteca_id", nullable = false) // FK a Biblioteca
     private Biblioteca biblioteca;
 
-    // relacion 1-m amb Prestec
+    // relacion 1-m amb Prestec: un exemplar puede tener muchos prestamos en su historial
     @OneToMany(
         mappedBy = "exemplar",           // Campo en Prestec que tiene la FK
         cascade = CascadeType.ALL,
