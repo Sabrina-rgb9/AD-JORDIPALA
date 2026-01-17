@@ -1,0 +1,22 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
+<hibernate-mapping>
+   <class name = "com.project.Ciutat" table = "Ciutat">
+        <id name = "ciutatId" type = "long" column = "ciutatId">
+            <generator class="native"/>
+        </id>
+
+        // propietats simples de la classe 
+        <property name = "nom" column = "nom" type = "string"/>
+        <property name = "pais" column = "pais" type = "string"/>
+        <property name = "poblacio" column = "poblacio" type = "int"/>
+
+        <!-- RELACIÓ ONETOMANY: Un Ciutat té molts Ciutadans -->
+        <!-- inverse="true": Ciutada és el propietari de la relació (té la FK) -->
+        <!-- cascade="all": Operacions en cascada per mantenir consistència -->
+        <set name="ciutadans" cascade="all" lazy="false" inverse="true"> // cascade s'utilitza per mantenir la consistència entre les entitats relacionades
+            <key column="ciutatId"/>
+            <one-to-many class="com.project.Ciutada"/>
+        </set>
+   </class>
+</hibernate-mapping>

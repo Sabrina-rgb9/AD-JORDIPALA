@@ -5,8 +5,6 @@
 # Set MAVEN_OPTS environment variable
 export MAVEN_OPTS="--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.nio=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED"
 
-# Resta de l'script
-
 # Check for the first argument and set it as the main class
 mainClass=$1
 
@@ -18,4 +16,4 @@ execArg="-PrunMain -Dexec.mainClass=$mainClass"
 echo "Exec args: $mainClass"
 
 # Execute mvn command
-mvn clean test-compile exec:java $execArg 
+mvn clean test-compile exec:java -PrunMain $execArg
