@@ -1,0 +1,30 @@
+{
+  "name": "dam-m0486-tema4-ra5-pr3.1-punt-partida-25-26",
+  "version": "1.0.0",
+  "description": "Aquest repositori proporciona un exemple pràctic d'integració de MongoDB amb Node.js, demostrant com carregar dades XML a una base de dades MongoDB.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jpala4-ieti/DAM-M0486-Tema4-RA5-PR3.1-Punt-Partida-25-26.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/jpala4-ieti/DAM-M0486-Tema4-RA5-PR3.1-Punt-Partida-25-26/issues"
+  },
+  "homepage": "https://github.com/jpala4-ieti/DAM-M0486-Tema4-RA5-PR3.1-Punt-Partida-25-26#readme",
+  "dependencies": {
+    "dotenv": "^17.3.1",
+    "html-entities": "^2.6.0",
+    "mongodb": "^5.9.2",
+    "pdfkit": "^0.17.2",
+    "sax": "^1.5.0",
+    "winston": "^3.19.0",
+    "xml2js": "^0.6.2"
+  }
+}
