@@ -1,0 +1,117 @@
+2026-03-10T17:24:07.304Z - Iniciant processament del XML...
+2026-03-10T17:24:07.322Z - Trobats 4650 rows
+2026-03-10T17:24:07.344Z - Trobades 1511 preguntes
+2026-03-10T17:24:07.344Z - Seleccionant les 10000 amb més ViewCount...
+2026-03-10T17:24:07.347Z - Seleccionades 1511 preguntes
+2026-03-10T17:24:07.347Z - Connectant a MongoDB...
+2026-03-10T17:24:07.376Z - ERROR: Authentication failed.
+2026-03-17T14:49:32.657Z - Iniciant processament del XML...
+2026-03-17T14:49:32.687Z - Trobats 4650 rows al fitxer
+2026-03-17T14:49:32.707Z - Trobades 1511 preguntes (PostTypeId=1)
+2026-03-17T14:49:32.707Z - Seleccionant les 10000 amb més ViewCount...
+2026-03-17T14:49:32.709Z - Es preparan per inserir 1511 preguntes
+2026-03-17T14:49:32.709Z - Connectant a MongoDB...
+2026-03-17T14:50:49.700Z - Iniciant processament del XML...
+2026-03-17T14:50:49.716Z - Trobats 4650 rows al fitxer
+2026-03-17T14:50:49.746Z - Trobades 1511 preguntes (PostTypeId=1)
+2026-03-17T14:50:49.746Z - Seleccionant les 10000 amb més ViewCount...
+2026-03-17T14:50:49.748Z - Es preparan per inserir 1511 preguntes
+2026-03-17T14:50:49.748Z - Connectant a MongoDB...
+2026-03-17T14:50:49.782Z - ERROR: Authentication failed.
+2026-03-17T14:50:49.783Z - Connexió tancada
+2026-03-17T14:50:49.783Z - Exercici 1 completat
+2026-03-17T14:51:58.020Z - Iniciant processament del XML...
+2026-03-17T14:51:58.038Z - Trobats 4650 rows al fitxer
+2026-03-17T14:51:58.059Z - Trobades 1511 preguntes (PostTypeId=1)
+2026-03-17T14:51:58.059Z - Seleccionant les 10000 amb més ViewCount...
+2026-03-17T14:51:58.061Z - Es preparan per inserir 1511 preguntes
+2026-03-17T14:51:58.062Z - Connectant a MongoDB...
+2026-03-17T14:51:58.089Z - ERROR: Authentication failed.
+2026-03-17T14:51:58.089Z - Connexió tancada
+2026-03-17T14:51:58.089Z - Exercici 1 completat
+2026-03-17T14:52:10.257Z - Iniciant processament del XML...
+2026-03-17T14:52:10.275Z - Trobats 4650 rows al fitxer
+2026-03-17T14:52:10.295Z - Trobades 1511 preguntes (PostTypeId=1)
+2026-03-17T14:52:10.295Z - Seleccionant les 10000 amb més ViewCount...
+2026-03-17T14:52:10.297Z - Es preparan per inserir 1511 preguntes
+2026-03-17T14:52:10.297Z - Connectant a MongoDB...
+2026-03-17T14:52:10.324Z - ERROR: Authentication failed.
+2026-03-17T14:52:10.324Z - Connexió tancada
+2026-03-17T14:52:10.324Z - Exercici 1 completat
+2026-03-17T14:59:43.925Z - Iniciant processament del XML...
+2026-03-17T14:59:43.943Z - Trobats 4650 rows al fitxer
+2026-03-17T14:59:43.971Z - Trobades 1511 preguntes (PostTypeId=1)
+2026-03-17T14:59:43.972Z - Seleccionant les 10000 amb més ViewCount...
+2026-03-17T14:59:43.974Z - Es preparan per inserir 1511 preguntes
+2026-03-17T14:59:43.974Z - Connectant a MongoDB...
+2026-03-17T14:59:44.003Z - ERROR: Authentication failed.
+2026-03-17T14:59:44.004Z - Connexió tancada
+2026-03-17T14:59:44.004Z - Exercici 1 completat
+2026-03-17T15:05:56.939Z - Iniciant processament del XML...
+2026-03-17T15:05:56.957Z - Trobats 4650 rows al fitxer
+2026-03-17T15:05:56.984Z - Trobades 1511 preguntes (PostTypeId=1)
+2026-03-17T15:05:56.984Z - Seleccionant les 10000 amb més ViewCount...
+2026-03-17T15:05:56.987Z - Es preparan per inserir 1511 preguntes
+2026-03-17T15:05:56.987Z - Connectant a MongoDB...
+2026-03-17T15:05:57.011Z - ERROR: Authentication failed.
+2026-03-17T15:05:57.012Z - Connexió tancada
+2026-03-17T15:05:57.012Z - Exercici 1 completat
+2026-03-17T15:09:18.150Z - Iniciant processament del XML...
+2026-03-17T15:09:18.168Z - Trobats 4650 rows al fitxer
+2026-03-17T15:09:18.198Z - Trobades 1511 preguntes (PostTypeId=1)
+2026-03-17T15:09:18.198Z - Seleccionant les 10000 amb més ViewCount...
+2026-03-17T15:09:18.201Z - Es preparan per inserir 1511 preguntes
+2026-03-17T15:09:18.201Z - Connectant a MongoDB...
+2026-03-17T15:09:18.225Z - ERROR: Authentication failed.
+2026-03-17T15:09:18.225Z - Connexió tancada
+2026-03-17T15:09:18.225Z - Exercici 1 completat
+2026-03-17T15:17:32.758Z - Iniciant processament del XML...
+2026-03-17T15:17:32.773Z - Trobats 4650 rows al fitxer
+2026-03-17T15:17:32.799Z - Trobades 1511 preguntes (PostTypeId=1)
+2026-03-17T15:17:32.799Z - Seleccionant les 10000 amb més ViewCount...
+2026-03-17T15:17:32.801Z - Es preparan per inserir 1511 preguntes
+2026-03-17T15:17:32.801Z - Connectant a MongoDB...
+2026-03-17T15:17:32.831Z - ERROR: Authentication failed.
+2026-03-17T15:17:32.831Z - Connexió tancada
+2026-03-17T15:17:32.831Z - Exercici 1 completat
+2026-03-17T15:18:00.311Z - Iniciant processament del XML...
+2026-03-17T15:18:00.326Z - Trobats 4650 rows
+2026-03-17T15:18:00.354Z - Trobades 1511 preguntes
+2026-03-17T15:18:00.356Z - Seleccionades 1511 preguntes
+2026-03-17T15:18:00.381Z - ERROR: Authentication failed.
+2026-03-17T15:18:00.381Z - Connexió tancada
+2026-03-17 16:54:48 - Iniciant processament del XML...
+2026-03-17 16:54:49 - Total línies llegides: 4660
+2026-03-17 16:54:49 - Total preguntes trobades: 1511
+2026-03-17 16:54:49 - Seleccionant les 10000 preguntes amb més ViewCount...
+2026-03-17 16:54:49 - Seleccionades 1511 preguntes.
+2026-03-17 16:54:49 -   - La que té més vistes: 243585
+2026-03-17 16:54:49 -   - La darrera seleccionada: 22
+2026-03-17 16:54:49 - ERROR: Authentication failed.
+2026-03-17 16:54:49 - Connexió tancada.
+2026-03-17 16:54:49 - Error fatal: Authentication failed.
+2026-03-17 17:06:37 - Iniciant processament del XML...
+2026-03-17 17:06:37 - Total línies llegides: 4660
+2026-03-17 17:06:37 - Total preguntes trobades: 1511
+2026-03-17 17:06:37 - Seleccionant les 10000 preguntes amb més ViewCount...
+2026-03-17 17:06:37 - Seleccionades 1511 preguntes.
+2026-03-17 17:06:37 -   - La que té més vistes: 243585
+2026-03-17 17:06:37 -   - La darrera seleccionada: 22
+2026-03-17 17:06:37 - Connectat a MongoDB correctament.
+2026-03-17 17:06:37 - Col·lecció netejada.
+2026-03-17 17:06:37 - 1511 documents inserits a MongoDB.
+2026-03-17 17:06:37 - Total documents a la col·lecció: 1511
+2026-03-17 17:06:37 - Connexió tancada.
+2026-03-17 17:06:37 - Exercici 1 completat amb èxit.
+2026-03-17 17:15:48 - Iniciant processament del XML...
+2026-03-17 17:15:48 - Total línies llegides: 4660
+2026-03-17 17:15:48 - Total preguntes trobades: 1511
+2026-03-17 17:15:48 - Seleccionant les 10000 preguntes amb més ViewCount...
+2026-03-17 17:15:48 - Seleccionades 1511 preguntes.
+2026-03-17 17:15:48 -   - La que té més vistes: 243585
+2026-03-17 17:15:48 -   - La darrera seleccionada: 22
+2026-03-17 17:15:48 - Connectat a MongoDB correctament.
+2026-03-17 17:15:48 - Col·lecció netejada.
+2026-03-17 17:15:48 - 1511 documents inserits a MongoDB.
+2026-03-17 17:15:48 - Total documents a la col·lecció: 1511
+2026-03-17 17:15:48 - Connexió tancada.
