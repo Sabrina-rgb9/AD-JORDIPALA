@@ -1,0 +1,47 @@
+2026-04-12T17:55:52.335Z [INFO]: Servidor WebSocket escoltant al port 8080
+2026-04-12T17:55:52.361Z [INFO]: Connectat a MongoDB
+2026-04-12T17:59:19.224Z [INFO]: Nou client connectat: client_1776016759224_lsywlarqj
+2026-04-12T17:59:40.226Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":0,"y":1}
+2026-04-12T17:59:40.227Z [INFO]: Nova partida partida_1776016780227_1 per al client client_1776016759224_lsywlarqj
+2026-04-12T17:59:40.951Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":0,"y":0}
+2026-04-12T17:59:41.333Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":-1,"y":0}
+2026-04-12T17:59:41.787Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":0,"y":0}
+2026-04-12T17:59:42.225Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":1,"y":0}
+2026-04-12T17:59:42.813Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":1,"y":1}
+2026-04-12T17:59:43.194Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":1,"y":0}
+2026-04-12T17:59:43.423Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":0,"y":0}
+2026-04-12T17:59:53.447Z [INFO]: Partida partida_1776016780227_1 finalitzada. Distància: 1.00
+2026-04-12T18:00:05.539Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":0,"y":1}
+2026-04-12T18:00:05.539Z [INFO]: Nova partida partida_1776016805539_2 per al client client_1776016759224_lsywlarqj
+2026-04-12T18:00:05.879Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":-1,"y":1}
+2026-04-12T18:00:07.801Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":0,"y":1}
+2026-04-12T18:00:07.989Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":0,"y":0}
+2026-04-12T18:00:08.333Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":0,"y":1}
+2026-04-12T18:00:08.576Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":-1,"y":1}
+2026-04-12T18:00:08.862Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":0,"y":1}
+2026-04-12T18:00:09.261Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":0,"y":2}
+2026-04-12T18:00:09.679Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":-1,"y":2}
+2026-04-12T18:00:09.925Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":-1,"y":1}
+2026-04-12T18:00:10.133Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":-1,"y":2}
+2026-04-12T18:00:10.362Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":-2,"y":2}
+2026-04-12T18:00:10.816Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":-2,"y":1}
+2026-04-12T18:00:11.310Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":-2,"y":0}
+2026-04-12T18:00:11.538Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":-3,"y":0}
+2026-04-12T18:00:11.993Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":-3,"y":1}
+2026-04-12T18:00:13.021Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":-2,"y":1}
+2026-04-12T18:00:13.324Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":-3,"y":1}
+2026-04-12T18:00:13.948Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":-3,"y":2}
+2026-04-12T18:00:14.369Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":-3,"y":3}
+2026-04-12T18:00:14.707Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":-4,"y":3}
+2026-04-12T18:00:14.922Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":-3,"y":3}
+2026-04-12T18:00:15.138Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":-3,"y":4}
+2026-04-12T18:00:15.599Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":-4,"y":4}
+2026-04-12T18:00:15.845Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":-4,"y":3}
+2026-04-12T18:00:16.059Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":-4,"y":4}
+2026-04-12T18:00:16.246Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":-5,"y":4}
+2026-04-12T18:00:16.643Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":-4,"y":4}
+2026-04-12T18:00:16.853Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":-4,"y":5}
+2026-04-12T18:00:18.103Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":-5,"y":5}
+2026-04-12T18:00:18.332Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":-4,"y":5}
+2026-04-12T18:00:18.502Z [INFO]: Missatge rebut de client_1776016759224_lsywlarqj: {"tipus":"moviment","x":-4,"y":6}
+2026-04-12T18:00:28.513Z [INFO]: Partida partida_1776016805539_2 finalitzada. Distància: 6.40
