@@ -16,19 +16,19 @@ function connectar() {
     ws = new WebSocket('ws://localhost:8080');
 
     ws.on('open', () => {
-        console.log('✅ Connectat al servidor. Utilitza les fletxes per moure\'t, \'q\' per sortir.');
+        console.log('Connectat al servidor. Utilitza les fletxes per mouret i "q" per sortir.');
         connectat = true;
     });
 
     ws.on('message', (data) => {
         const missatge = JSON.parse(data);
         if (missatge.tipus === 'final') {
-            console.log(`\n🏁 Partida ${missatge.partidaId} finalitzada! Distància recorreguda: ${missatge.distancia} unitats.\n`);
+            console.log(`\nPartida ${missatge.partidaId} finalitzada! Distància recorreguda: ${missatge.distancia} unitats.\n`);
         }
     });
 
     ws.on('close', () => {
-        console.log('❌ Connexió tancada pel servidor.');
+        console.log('Connexió tancada pel servidor.');
         connectat = false;
         process.exit(0);
     });
@@ -56,9 +56,9 @@ process.stdin.on('keypress', (str, key) => {
         default: return;
     }
 
-    console.log(`📍 Posició: (${posicio.x}, ${posicio.y})`);
+    console.log(`Posició: (${posicio.x}, ${posicio.y})`);
     ws.send(JSON.stringify({ tipus: 'moviment', x: posicio.x, y: posicio.y }));
 });
 
-console.log('🎮 Client de joc WebSocket');
+console.log('Client de joc WebSocket');
 connectar();
